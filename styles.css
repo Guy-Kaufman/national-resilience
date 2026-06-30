@@ -121,15 +121,16 @@ img { max-width: 100%; display: block; }
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.22) 50%, transparent 70%);
+  background: linear-gradient(115deg, transparent 28%, rgba(255, 255, 255, 0.32) 50%, transparent 72%);
   transform: translateX(-130%);
-  transition: transform 0.6s ease;
+  transition: transform 0.55s ease;
   pointer-events: none;
 }
 .btn--gold:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.6), 0 3px 8px -2px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 18px 38px -10px rgba(0, 0, 0, 0.62), 0 4px 10px -2px rgba(0, 0, 0, 0.45);
 }
+.btn--gold:active { transform: translateY(-1px) scale(0.99); }
 .btn--gold:hover::before { transform: translateX(130%); }
 
 .btn--outline {
@@ -589,15 +590,41 @@ img { max-width: 100%; display: block; }
 }
 .circle p { color: var(--steel); font-size: 0.98rem; }
 .who__note {
+  position: relative;
+  overflow: hidden;
   font-family: var(--display);
-  font-size: 1.25rem;
-  font-weight: 500;
-  line-height: 1.4;
+  font-size: clamp(1.18rem, 2vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.45;
   letter-spacing: -0.01em;
-  color: var(--ink);
-  border-left: 2px solid var(--gold);
-  padding-left: 22px;
-  max-width: 760px;
+  color: var(--hi-fg);
+  background: var(--hi-bg);
+  padding: 34px 40px 34px 44px;
+  border-radius: 6px;
+  max-width: 820px;
+  margin-top: 18px;
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+}
+/* bright accent strip + faint oversized quote mark to pull the eye in */
+.who__note::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--hi-fg);
+  opacity: 0.85;
+}
+.who__note::after {
+  content: "\201D";
+  position: absolute;
+  right: 22px;
+  bottom: -18px;
+  font-family: var(--display);
+  font-size: 7rem;
+  line-height: 1;
+  color: var(--hi-fg);
+  opacity: 0.07;
+  pointer-events: none;
 }
 
 /* ---------- Expected participants ---------- */
@@ -1187,6 +1214,8 @@ img { max-width: 100%; display: block; }
   .hero__buttons .btn { flex: none; width: 100%; }
   .stat-strip { grid-template-columns: 1fr 1fr; }
   .btn--lg { padding: 14px 24px; font-size: 0.78rem; }
+  .who__note { padding: 26px 22px 26px 26px; }
+  .who__note::after { font-size: 5rem; right: 14px; }
 }
 @media (max-width: 400px) {
   .nav__inner { padding: 12px 14px; gap: 10px; }
