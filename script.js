@@ -284,4 +284,124 @@
       }
     }
   })();
+
+  /* ---------- Partner inquiry modal ---------- */
+  (function partnerModal() {
+    var modal = document.getElementById("partnerModal");
+    if (!modal) return;
+
+    /* ====================================================================
+       PASTE YOUR GOOGLE APPS SCRIPT WEB-APP URL BETWEEN THE QUOTES BELOW.
+       (Setup steps are in the project notes — deploy the Sheet's Apps
+       Script as a Web App, "Anyone" access, and paste its /exec URL here.)
+       Until it's set, the form still works as a demo but won't record data.
+       ==================================================================== */
+    var FORM_ENDPOINT = "";
+
+    var dialog = modal.querySelector(".modal__dialog");
+    var form = document.getElementById("partnerForm");
+    var statusEl = document.getElementById("pfStatus");
+    var submitBtn = document.getElementById("pfSubmit");
+    var successEl = document.getElementById("pfSuccess");
+    var lastFocused = null;
+
+    function isPartnerLink(a) {
+      return a.textContent.trim().toLowerCase() === "become a partner";
+    }
+
+    function openModal(e) {
+      if (e) e.preventDefault();
+      lastFocused = document.activeElement;
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+      var first = form.querySelector("input:not(.modal__hp)");
+      if (first) setTimeout(function () { first.focus(); }, 60);
+    }
+
+    function closeModal() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    /* Open from every "Become a Partner" link on the page */
+    document.querySelectorAll("a").forEach(function (a) {
+      if (isPartnerLink(a)) a.addEventListener("click", openModal);
+    });
+
+    /* Close: X button, backdrop, any [data-modal-close], Escape */
+    modal.querySelectorAll("[data-modal-close]").forEach(function (el) {
+      el.addEventListener("click", closeModal);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+    });
+
+    /* Submit */
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var telegram = form.telegram.value.trim();
+      var phone = form.phone.value.trim();
+      var email = form.email.value.trim();
+
+      // honeypot — silently accept (and drop) bot submissions
+      if (form.company_url && form.company_url.value) { showSuccess(); return; }
+
+      // required validation
+      var ok = true;
+      [form.telegram, form.phone].forEach(function (inp) {
+        if (!inp.value.trim()) { inp.classList.add("is-error"); ok = false; }
+        else inp.classList.remove("is-error");
+      });
+      if (!ok) {
+        statusEl.textContent = "Please add your Telegram handle and phone.";
+        statusEl.classList.add("is-error");
+        return;
+      }
+      statusEl.textContent = "";
+      statusEl.classList.remove("is-error");
+
+      submitBtn.disabled = true;
+      var origLabel = submitBtn.textContent;
+      submitBtn.textContent = "Sending…";
+
+      var payload = new URLSearchParams({
+        telegram: telegram,
+        phone: phone,
+        email: email,
+        page: location.href,
+        submitted_at: new Date().toISOString()
+      });
+
+      function done() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = origLabel;
+        showSuccess();
+      }
+
+      if (FORM_ENDPOINT) {
+        fetch(FORM_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: payload.toString()
+        }).then(done).catch(function () {
+          // no-cors gives an opaque response; treat reachable as success
+          done();
+        });
+      } else {
+        console.warn("[partner form] FORM_ENDPOINT is not set — submission not recorded.");
+        setTimeout(done, 500);
+      }
+    });
+
+    function showSuccess() {
+      form.hidden = true;
+      successEl.hidden = false;
+      form.reset();
+    }
+  })();
 })();

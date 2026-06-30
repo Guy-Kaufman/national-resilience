@@ -1230,3 +1230,162 @@ img { max-width: 100%; display: block; }
   * { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* ---------- Partner inquiry modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+.modal.is-open { opacity: 1; visibility: visible; }
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 4, 4, 0.74);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: #131312;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 40px 40px 36px;
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.85);
+  transform: translateY(14px) scale(0.98);
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+.modal.is-open .modal__dialog { transform: translateY(0) scale(1); }
+
+.modal__close {
+  position: absolute;
+  top: 18px; right: 18px;
+  width: 38px; height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.78);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.modal__close:hover { background: rgba(255, 255, 255, 0.12); color: #fff; border-color: rgba(255, 255, 255, 0.3); }
+
+.modal__eyebrow {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 14px;
+}
+.modal__title {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.modal__sub {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  margin-bottom: 26px;
+}
+
+.modal__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 9px;
+}
+.field .req { color: rgba(255, 255, 255, 0.9); }
+.field .opt { color: rgba(255, 255, 255, 0.4); font-weight: 400; letter-spacing: 0.08em; }
+.field input {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.field input::placeholder { color: rgba(255, 255, 255, 0.34); }
+.field input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.06);
+}
+.field input.is-error { border-color: rgba(231, 111, 81, 0.8); }
+
+.modal__form .btn--block { margin-top: 24px; }
+
+.modal__status {
+  margin-top: 14px;
+  font-size: 0.88rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  min-height: 1.1em;
+}
+.modal__status.is-error { color: #e88a76; }
+
+.modal__success { text-align: center; padding: 12px 0 6px; }
+.modal__success-icon {
+  width: 56px; height: 56px;
+  margin: 0 auto 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+.modal__success h3 {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.modal__success p {
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.55;
+  margin-bottom: 24px;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.modal__success .btn--outline { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+.modal__success .btn--outline:hover { background: #fff; color: #131312; border-color: #fff; }
+
+body.modal-open { overflow: hidden; }
+
+@media (max-width: 560px) {
+  .modal { padding: 16px; }
+  .modal__dialog { padding: 32px 22px 28px; border-radius: 14px; }
+  .modal__close { top: 14px; right: 14px; }
+}
