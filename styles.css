@@ -287,6 +287,7 @@ img { max-width: 100%; display: block; }
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;   /* match the *visible* viewport on mobile (no address-bar gap) */
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -1156,9 +1157,10 @@ img { max-width: 100%; display: block; }
   .nav__mnm { height: 19px; }
   .nav__co-img { height: 15px; }
   .format-grid { grid-template-columns: 1fr; }
-  .hero__meta { font-size: 0.84rem; gap: 10px 18px; }
-  .hero__buttons { width: 100%; }
-  .hero__buttons .btn { flex: 1; }
+  .hero__content { padding-bottom: 60px; }
+  .hero__meta { font-size: 0.84rem; gap: 10px 18px; margin-bottom: 30px; }
+  .hero__buttons { width: 100%; flex-direction: column; gap: 12px; }
+  .hero__buttons .btn { flex: none; width: 100%; }
   .stat-strip { grid-template-columns: 1fr 1fr; }
   .btn--lg { padding: 14px 24px; font-size: 0.78rem; }
 }
