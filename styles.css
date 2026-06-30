@@ -105,14 +105,15 @@ img { max-width: 100%; display: block; }
 .btn--lg:hover::after,
 .btn--block:hover::after { transform: translateX(5px); }
 
-/* Primary = brandbook highlight box (black box / light text on the light base,
-   cream box / black text on dark bands) — driven by --hi-* vars */
+/* Primary CTA: solid black button, white text — consistent on light and dark bands.
+   The light border gives it a defined edge on the near-black hero/CTA backgrounds. */
 .btn--gold {
   position: relative;
   overflow: hidden;
-  background: var(--hi-bg);
-  color: var(--hi-fg);
+  background: #111110;
+  color: #ffffff;
   font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.55), 0 2px 6px -2px rgba(0, 0, 0, 0.35);
 }
 /* Subtle sheen that sweeps across on hover to draw the eye to the primary CTA */
