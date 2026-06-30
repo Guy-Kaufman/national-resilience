@@ -36,7 +36,8 @@
 .hero,
 .final-cta,
 .footer,
-.section--alt {
+.section--alt,
+.modal__dialog {
   --bg:        #0c0c0c;
   --bg-alt:    #151514;
   --panel:     #1b1b1a;
@@ -105,16 +106,17 @@ img { max-width: 100%; display: block; }
 .btn--lg:hover::after,
 .btn--block:hover::after { transform: translateX(5px); }
 
-/* Primary CTA: solid black button, white text — consistent on light and dark bands.
-   The light border gives it a defined edge on the near-black hero/CTA backgrounds. */
+/* Primary CTA: filled "highlight box" that contrasts with its background
+   (white/black-font on dark bands, black/light-font on light bands) and
+   INVERTS on hover — so it always flips to the opposite fill + font. */
 .btn--gold {
   position: relative;
   overflow: hidden;
-  background: #111110;
-  color: #ffffff;
+  background: var(--hi-bg);
+  color: var(--hi-fg);
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.55), 0 2px 6px -2px rgba(0, 0, 0, 0.35);
+  border: 1px solid transparent;
+  box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.5), 0 2px 6px -2px rgba(0, 0, 0, 0.3);
 }
 /* Subtle sheen that sweeps across on hover to draw the eye to the primary CTA */
 .btn--gold::before {
@@ -128,8 +130,11 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 .btn--gold:hover {
+  background: var(--hi-fg);
+  color: var(--hi-bg);
+  border-color: var(--hi-bg);   /* defines the inverted fill against the background */
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 18px 38px -10px rgba(0, 0, 0, 0.62), 0 4px 10px -2px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 18px 38px -10px rgba(0, 0, 0, 0.55), 0 4px 10px -2px rgba(0, 0, 0, 0.4);
 }
 .btn--gold:active { transform: translateY(-1px) scale(0.99); }
 .btn--gold:hover::before { transform: translateX(130%); }
@@ -271,6 +276,9 @@ img { max-width: 100%; display: block; }
   font-size: 0.95rem;
 }
 .nav__mobile .btn { margin-top: 12px; border-bottom: none; }
+/* override the .nav__mobile a text color so the primary CTA's label stays legible */
+.nav__mobile .btn--gold { color: var(--hi-fg); padding-top: 15px; padding-bottom: 15px; }
+.nav__mobile .btn--gold:hover { color: var(--hi-bg); }
 
 /* ---------- Social rail ---------- */
 .social-rail {
