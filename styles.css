@@ -365,13 +365,18 @@ img { max-width: 100%; display: block; }
 .hero__headline-1 {
   font-weight: 500;
   font-size: clamp(1.6rem, 3.3vw, 2.7rem);
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.48);   /* de-emphasized: "the" */
 }
 .hero__headline-2 {
-  font-weight: 700;
+  font-weight: 500;
   font-size: clamp(2rem, 4.4vw, 3.7rem);
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.48);   /* de-emphasized: "That" */
   margin-top: 2px;
+}
+/* Emphasized words: Protecting · Systems · Keep Nations Running */
+.hero__em {
+  color: #ffffff;
+  font-weight: 700;
 }
 .hero__sub {
   color: rgba(255, 255, 255, 0.88);
