@@ -108,11 +108,29 @@ img { max-width: 100%; display: block; }
 /* Primary = brandbook highlight box (black box / light text on the light base,
    cream box / black text on dark bands) — driven by --hi-* vars */
 .btn--gold {
+  position: relative;
+  overflow: hidden;
   background: var(--hi-bg);
   color: var(--hi-fg);
   font-weight: 600;
+  box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.55), 0 2px 6px -2px rgba(0, 0, 0, 0.35);
 }
-.btn--gold:hover { transform: translateY(-2px); opacity: 0.9; }
+/* Subtle sheen that sweeps across on hover to draw the eye to the primary CTA */
+.btn--gold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.22) 50%, transparent 70%);
+  transform: translateX(-130%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+.btn--gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.6), 0 3px 8px -2px rgba(0, 0, 0, 0.4);
+}
+.btn--gold:hover::before { transform: translateX(130%); }
 
 .btn--outline {
   background: transparent;
@@ -404,13 +422,14 @@ img { max-width: 100%; display: block; }
 .hero__meta-item svg { color: rgba(255,255,255,0.7); flex: none; }
 .hero__buttons { display: flex; gap: 16px; flex-wrap: wrap; }
 
-/* Hero: both buttons hollow at rest, fill white on hover */
-.hero__buttons .btn {
+/* Hero: secondary button hollow at rest, fills white on hover.
+   The primary (.btn--gold "Become a Partner") keeps its filled highlight style. */
+.hero__buttons .btn--outline {
   background: transparent;
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.5);
 }
-.hero__buttons .btn:hover {
+.hero__buttons .btn--outline:hover {
   background: #ffffff;
   color: #111110;
   border-color: #ffffff;
