@@ -738,18 +738,23 @@ img { max-width: 100%; display: block; }
   transform: translateY(-3px);
 }
 .plogo img {
-  max-height: 42px;
-  max-width: 78%;
+  max-height: 62px;
+  max-width: 90%;
   width: auto;
   object-fit: contain;
   filter: grayscale(100%);          /* monochrome at rest */
-  opacity: 0.62;
+  opacity: 0.78;
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 .plogo:hover img {
   filter: grayscale(0);             /* reveal brand colour on hover */
   opacity: 1;
 }
+/* logos supplied on a white background — multiply drops the white into the band */
+.plogo img[src*="NIST"],
+.plogo img[src*="cyprus"] { mix-blend-mode: multiply; }
+/* Bahrain crest sits small inside a wide canvas — give it more room */
+.plogo img[src*="MOI"] { max-height: 78px; max-width: 96%; }
 .participants__note {
   text-align: center;
   color: var(--steel);
