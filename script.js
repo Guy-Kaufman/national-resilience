@@ -48,6 +48,22 @@
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
     );
     document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+    /* Fallback: guarantee any in-view .reveal shows even if the observer
+       misses it (fast scroll, deep-links, bfcache). Idempotent with the IO. */
+    function revealInView() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      document.querySelectorAll(".reveal:not(.is-visible)").forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < vh * 0.92 && r.bottom > 0) {
+          el.classList.add("is-visible");
+          if (el.classList.contains("stat-strip")) runStatCount();
+        }
+      });
+    }
+    window.addEventListener("scroll", revealInView, { passive: true });
+    window.addEventListener("load", revealInView);
+    revealInView();
   } else {
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("is-visible"); });
   }

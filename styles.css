@@ -382,6 +382,12 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   padding: 0 28px 96px;
 }
+.hero__brand {
+  height: clamp(58px, 8vw, 92px);
+  width: auto;
+  margin-bottom: 30px;
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.45));
+}
 .hero__headline {
   font-family: var(--display);
   line-height: 1.0;
@@ -598,6 +604,68 @@ img { max-width: 100%; display: block; }
   line-height: 1.15;
 }
 .circle p { color: var(--steel); font-size: 0.98rem; }
+
+/* Who Attends — dark "command-center" band */
+.who { overflow: hidden; }
+.who__container { position: relative; z-index: 1; }
+/* soft monochrome infrastructure grid + glow behind the cards */
+.who__layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(900px 500px at 78% -10%, rgba(232,232,230,0.10), transparent 60%),
+    radial-gradient(700px 480px at 8% 110%, rgba(232,232,230,0.06), transparent 60%),
+    linear-gradient(to right, rgba(232,232,230,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(232,232,230,0.05) 1px, transparent 1px);
+  background-size: auto, auto, 46px 46px, 46px 46px;
+  -webkit-mask-image: radial-gradient(130% 120% at 50% 0%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(130% 120% at 50% 0%, #000 55%, transparent 100%);
+}
+.who-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 40px;
+}
+.audience-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 32px 28px;
+  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+.audience-card:hover {
+  border-color: var(--line-gold);
+  transform: translateY(-4px);
+  background: var(--panel-2);
+}
+.audience-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  color: var(--ink);
+  margin-bottom: 20px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.audience-card__icon svg { width: 26px; height: 26px; }
+.audience-card:hover .audience-card__icon { background: var(--hi-bg); color: var(--hi-fg); }
+.audience-card h3 {
+  font-family: var(--display);
+  font-size: 1.24rem;
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+  margin-bottom: 10px;
+}
+.audience-card p { color: var(--steel); font-size: 0.96rem; }
+
 .who__note {
   position: relative;
   overflow: hidden;
@@ -727,6 +795,32 @@ img { max-width: 100%; display: block; }
 .theme p { color: var(--steel); font-size: 0.95rem; }
 
 /* ---------- Format ---------- */
+/* Format intro: copy on the left, contained B&W event photo on the right */
+.format__intro {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 44px;
+  align-items: center;
+  margin-bottom: 44px;
+}
+.format__intro-text { max-width: 560px; }
+.format__intro-text .section__lead { margin-bottom: 0; }
+.format__media {
+  margin: 0;
+  height: 300px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.format__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.04);   /* B&W at rest */
+  transition: filter 0.5s ease, transform 0.6s ease;
+}
+.format__media:hover img { filter: grayscale(0) contrast(1.04); transform: scale(1.04); }  /* full color on hover */
+
 .format-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1040,6 +1134,13 @@ img { max-width: 100%; display: block; }
   transition: filter 0.4s ease, transform 0.5s ease;
 }
 .about__media:hover img { filter: grayscale(0.55) contrast(1.04); transform: scale(1.03); }
+.about__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 420px;
+  object-fit: cover;
+}
 
 /* ---------- FAQ ---------- */
 .faq__list { max-width: 880px; }
@@ -1197,10 +1298,15 @@ img { max-width: 100%; display: block; }
   .stat:nth-child(2) { border-right: none; }
   .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--line); }
   .circles, .themes, .package-grid, .addons__grid { grid-template-columns: 1fr; }
+  .who-grid { grid-template-columns: repeat(2, 1fr); }
   .plogos { grid-template-columns: repeat(2, 1fr); column-gap: 30px; }
   .about__inner { grid-template-columns: 1fr; gap: 36px; }
   .about__media { order: -1; }
   .format-grid { grid-template-columns: repeat(2, 1fr); }
+  /* stack the photo beneath the copy on narrower screens */
+  .format__intro { grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+  .format__intro-text { max-width: none; }
+  .format__media { height: 220px; }
   .location__layout { grid-template-columns: 1fr; }
   .footer__inner { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
   .footer__brand { grid-column: 1 / -1; }
@@ -1209,6 +1315,15 @@ img { max-width: 100%; display: block; }
 @media (max-width: 560px) {
   .section { padding: 80px 0; }
   .container { padding: 0 20px; }
+  /* Hero: ease the brand logo's vertical footprint so the headline + CTAs
+     still clear the fold on short phones (iPhone SE etc.) */
+  .hero__brand { height: 52px; margin-bottom: 18px; }
+  .hero__content { padding-left: 20px; padding-right: 20px; }
+  .who-grid { grid-template-columns: 1fr; }
+  .audience-card { padding: 28px 24px; }
+  .audience-card__icon { width: 48px; height: 48px; margin-bottom: 16px; }
+  .audience-card__icon svg { width: 24px; height: 24px; }
+  .audience-card h3 { font-size: 1.18rem; }
   /* keep all three logos, scaled to complement each other */
   .nav__inner { padding: 12px 18px; gap: 12px; }
   .nav__lockup { gap: 10px; }
@@ -1232,6 +1347,7 @@ img { max-width: 100%; display: block; }
   .nav__logo { height: 32px; }
   .nav__mnm { height: 14px; }
   .nav__co-img { height: 17px; }
+  .hero__brand { height: 46px; margin-bottom: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
